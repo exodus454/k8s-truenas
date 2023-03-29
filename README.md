@@ -71,28 +71,28 @@ storageClasses:
   mountOptions:
   - noatime
   - nfsvers=3
-volumeSnapshotClasses:
-- name: nfs
+#volumeSnapshotClasses:
+#- name: nfs
 driver:
   config:
     driver: freenas-api-nfs
     instance_id:
     httpConnection:
       protocol: http
-      host: 10.10.20.100
-      port: 80
-      apiKey: 1-IvCjJtMLUhEUseYourOwnrK1HKRIFWd1UFK5ay52HogLUrwC2UxjHNQWODCRGhe
+      host: 192.168.0.171
+      port: 81
+      apiKey: 2-ebPL9Pog41o1UyCJo58Ebf5AcFPrjjkfjYTpkE4fn8rZWQrn53IbLoFpP8Y4jOyE
       allowInsecure: true
     zfs:
-      datasetParentName: storage/k8s/nfs/v
-      detachedSnapshotsDatasetParentName: storage/k8s/nfs/s
+      datasetParentName: ssd0/apps-mount/nfs/v
+      detachedSnapshotsDatasetParentName: ssd0/apps-mount/nfs/s
       datasetEnableQuotas: true
       datasetEnableReservation: false
       datasetPermissionsMode: "0777"
       datasetPermissionsUser: 0
       datasetPermissionsGroup: 0
     nfs:
-      shareHost: 10.10.20.100
+      shareHost: 192.168.1.171
       shareAlldirs: false
       shareAllowedHosts: []
       shareAllowedNetworks: []
@@ -100,7 +100,7 @@ driver:
       shareMaprootGroup: root
       shareMapallUser: ""
       shareMapallGroup: ""
-```
+
 Above is simplified/streamlined version of values file. Below is the command to get full file with comments.
 
 ```
@@ -114,34 +114,34 @@ csiDriver:
   name: "iscsi"
 storageClasses:
 - name: iscsi
-  defaultClass: false
+  defaultClass: true
   reclaimPolicy: Delete
   volumeBindingMode: Immediate
   allowVolumeExpansion: true
   parameters:
     fsType: ext4
   mountOptions: []
-volumeSnapshotClasses:
-- name: nfs
+#volumeSnapshotClasses:
+#- name: nfs
 driver:
   config:
     driver: freenas-api-iscsi
     instance_id:
     httpConnection:
       protocol: http
-      host: 10.10.20.100
-      port: 80
-      apiKey: 1-IvCjJtMLUhEUseYourOwnrK1HKRIFWd1UFK5ay52HogLUrwC2UxjHNQWODCRGhe
+      host: 192.168.0.171
+      port: 81
+      apiKey: 2-ebPL9Pog41o1UyCJo58Ebf5AcFPrjjkfjYTpkE4fn8rZWQrn53IbLoFpP8Y4jOyE
       allowInsecure: true
     zfs:
-      datasetParentName: storage/k8s/iscsi/v
-      detachedSnapshotsDatasetParentName: storage/k8s/iscsi/s
+      datasetParentName: ssd0/apps-mount/iscsi/v
+      detachedSnapshotsDatasetParentName: ssd0/apps-mount/iscsi/s
       zvolCompression:
       zvolDedup:
       zvolEnableReservation: false
       zvolBlocksize:
     iscsi:
-      targetPortal: "10.10.20.100:3260"
+      targetPortal: "192.168.0.171:3260"
       targetPortals: [] 
       interface:
       namePrefix: csi-
@@ -157,6 +157,7 @@ driver:
       extentBlocksize: 512
       extentRpm: "SSD"
       extentAvailThreshold: 0
+
 ```
 
 Again above is simplified/streamlined version of values file. Below is the command to get file with comments.
